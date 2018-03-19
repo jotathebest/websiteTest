@@ -11,7 +11,8 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=6.0', ]
+requirements = ['Click>=6.0', 'imutils>=0.4.4', 'selenium>=3.8.0', 'opencv-contrib-python>=3.4.0.12',
+                'opencv-python>=3.4.0.12']
 
 setup_requirements = ['pytest-runner', ]
 
