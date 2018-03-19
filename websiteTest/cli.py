@@ -3,11 +3,9 @@
 """Console script for websiteTest."""
 import sys
 import click
-from websiteTest.websiteTest import tester
 
 
 @click.command()
-
 def main(url, function, template_path, template_name, check_path, check_name):
     """Console script for websiteTest."""
     click.echo("Replace this message by putting your code into "
