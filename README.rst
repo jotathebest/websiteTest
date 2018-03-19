@@ -3,13 +3,13 @@ Website-Tester
 ==============
 
 
-.. image:: https://img.shields.io/pypi/v/websiteTester.svg
+.. image:: https://img.shields.io/pypi/v/websiteTest.svg
         :target: https://pypi.python.org/pypi/websiteTest
 
 .. image:: https://img.shields.io/travis/jotathebest/websiteTest.svg
         :target: https://travis-ci.org/jotathebest/websiteTest
 
-.. image:: https://readthedocs.org/projects/websiteTester/badge/?version=latest
+.. image:: https://readthedocs.org/projects/websiteTest/badge/?version=latest
         :target: https://websiteTest.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
