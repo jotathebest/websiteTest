@@ -34,11 +34,6 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
     description="A package to get visual differences between an expected template image and the actual website’s appearance",
-    entry_points={
-        'console_scripts': [
-            'websiteTest=websiteTest.cli:main',
-        ],
-    },
     install_requires=requirements,
     license="GNU General Public License v3",
     long_description=readme + '\n\n' + history,

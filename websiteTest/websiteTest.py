@@ -12,10 +12,11 @@ def template(url, template_name, template_path):
     print("[INFO] Attempting to get URL")
     tester = BaseSelenium()
     print("[INFO] Saving template")
-    tester.save_screencap(url=url, path=template_path, file_name=template_name)
+    saved = tester.save_screencap(url=url, path=template_path,
+                                  file_name=template_name)
     tester.close_browser()
     print("[INFO] finished")
-    return True
+    return saved
 
 
 def test(url, template_name, template_path, check_name, check_path):
@@ -24,8 +25,14 @@ def test(url, template_name, template_path, check_name, check_path):
     print("[INFO] Attempting to get URL")
     tester = BaseSelenium()
     print("[INFO] Saving check")
-    tester.save_screencap(url=url, path=check_path, file_name=check_name)
+    import ipdb
+    ipdb.set_trace()
+    saved = tester.save_screencap(url=url, path=check_path,
+                                  file_name=check_name)
     tester.close_browser()
+    if not saved:
+        print("[ERROR] Could not store the screencap to check")
+        return None
     print("[INFO] comparing images")
     template_path = "{}/{}.png".format(template_path, template_name)
     check_path = "{}/{}.png".format(check_path, check_name)
