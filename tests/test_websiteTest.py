@@ -36,3 +36,11 @@ def test_command_line_interface():
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
     assert '--help  Show this message and exit.' in help_result.output
+
+
+def true_template_tester():
+    url = "https://jotathebest.github.io/invie-responsive/"
+    assert websiteTest.tester(url=url, function="test",
+                              template="true_template") == True
+    assert websiteTest.tester(url=url, function="test",
+                              template="false_template") == False
