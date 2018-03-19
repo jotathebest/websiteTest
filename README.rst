@@ -9,7 +9,7 @@ Website-Tester
 .. image:: https://img.shields.io/travis/jotathebest/websiteTest.svg
         :target: https://travis-ci.org/jotathebest/websiteTest
 
-.. image:: https://readthedocs.org/projects/websiteTest/badge/?version=latest
+.. image:: https://readthedocs.org/projects/websitetest/badge/?version=latest
         :target: https://websiteTest.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
