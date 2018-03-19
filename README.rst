@@ -19,7 +19,7 @@ A package to get visual differences between an expected template image and the a
 
 
 * Free software: GNU General Public License v3
-* Documentation: https://websiteTester.readthedocs.io.
+* Documentation: https://websiteTest.readthedocs.io.
 
 
 Features
