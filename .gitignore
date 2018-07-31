@@ -100,3 +100,10 @@ ENV/
 
 # mypy
 .mypy_cache/
+config.cfg
+__pycache__
+*.log
+templates/*.png
+templates-1/*
+testing/*
+test.py
