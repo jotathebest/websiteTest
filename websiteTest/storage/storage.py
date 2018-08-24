@@ -2,11 +2,14 @@
 class Storage(object):
 
 
-    def save(self, name, content):
-        pass
+    def save(self, *args, **kwargs):
+        raise NotImplementedError(
+            "Please implement a save() method in your class")
 
-    def open(self, name):
-        pass
+    def open(self, *args, **kwargs):
+        raise NotImplementedError(
+            "Please implement a open() method in your class")
 
-    def exits(self, name)
-        pass
+    def exist(self, *args, **kwargs):
+        raise NotImplementedError(
+            "Please implement a exist() method in your class")
