@@ -12,20 +12,20 @@ class AwsStorage(Storage):
     to the official AWS docs.
     """
 
-    def __init__(self, aws_secret_key, aws_access_key_id, aws_bucket):
+    def __init__(self, aws_secret_access_key, aws_access_key_id, aws_bucket):
         """
-        @aws_secret_key: Amazon secret key
+        @aws_secret_access_key: Amazon secret key
         @aws_access_key_id: Amazon Access key
         @aws_bucket: Amazon remote buckte to store files
         """
-        self.aws_secret_key = aws_secret_key
-        self.aws_access_key_id = aws_access_key
+        self.aws_secret_access_key = aws_secret_access_key
+        self.aws_access_key_id = aws_access_key_id
         self.aws_bucket = aws_bucket
 
-    def init_session():
+    def init_session(self):
 
         session = Session(aws_access_key_id=self.aws_access_key_id,
-                          aws_secret_access_key=aws_secret_access_key)
+                          aws_secret_access_key=self.aws_secret_access_key)
         s3 = session.resource("s3")
 
         return s3
@@ -40,15 +40,15 @@ class AwsStorage(Storage):
         @access_policy: Policy access of the file,'public-read' by default
         """
 
-        s3 = init_session()
+        s3 = self.init_session()
 
         if file_name is None:
             file_name = random_number = int(random.getrandbits(32))
 
-        file_name = "{0}.{1}".format(filename_ext, filename_ext)
+        file_name = "{0}.{1}".format(file_name, file_ext)
 
         # Sends file to AWS
-        s3.Bucket(aws_bucket_data).put_object(
+        s3.Bucket(self.aws_bucket).put_object(
             Key=file_name,
             Body=binary_file,
             ACL=access_policy
@@ -69,17 +69,17 @@ class AwsStorage(Storage):
 
         return re.content
 
-    def exist(self, file_name, aws_bucket=None):
+    def exist(self, file_name=None, aws_bucket=None):
         """
         Returns True if the AWS file exist in the specified remote path
         """
         if aws_bucket is None:
             aws_bucket = self.aws_bucket
 
-        s3 = init_session()
+        s3 = self.init_session()
         bucket = s3.Bucket(aws_bucket)
         objs = list(bucket.objects.filter(Prefix=file_name))
-        if len(objs) > 0 and objs[0].key == key:
+        if len(objs) > 0 and objs[0].key == file_name:
             return True
         else:
             return False
