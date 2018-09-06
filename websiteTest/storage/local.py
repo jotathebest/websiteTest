@@ -27,8 +27,13 @@ class LocalStorage(Storage):
 
     def open(self, path_file):
         '''
-        Returns True if the file from the specified path exists
+        Returns a binary file from the path
         '''
+        if not exist(path_file):
+            message = "[ERROR] The file from path {}".format(path_file)
+            message = "{} does not exist".format(message)
+            raise LocalStorageError(message)
+
         string_read = ""
         with open(path_file, 'r') as f:
             string_read = f.read()
@@ -40,3 +45,6 @@ class LocalStorage(Storage):
         Returns True if the file from the specified path exists
         '''
         return os.path.isfile(path_file)
+
+class LocalStorageError(ValueError):
+    pass

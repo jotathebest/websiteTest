@@ -5,7 +5,7 @@ import time
 class BaseSelenium():
 
     def __init__(self):
-        self.browser = webdriver.Firefox()
+        self.browser = webdriver.Chrome()
         self.timeout = 2
 
     def set_timeout(self, timeout):

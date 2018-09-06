@@ -62,10 +62,19 @@ class AwsStorage(Storage):
         """
         Returns a binary file from the url
         """
+        if not exist(path_file):
+            message = "[ERROR] The file from path {}".format(path_file)
+            message = "{} does not exist".format(message)
+            raise LocalStorageError(message)
+
         re = requests.get(file_url, timeout=timeout)
 
         if re.status_code >= 400:  # The file does not exist
-            return None
+            message = "[ERROR] Got an AWS error {} from path {}".format(
+                path_file, re.status_code)
+            message = "{}, please make sure that file url exists".format(
+                message)
+            raise LocalStorageError(message)
 
         return re.content
 
