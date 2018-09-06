@@ -71,3 +71,10 @@ def b64_to_cv2(image):
     imgdata = base64.b64decode(image)
     buffer = Image.open(io.BytesIO(imgdata))
     return cv2.cvtColor(np.array(buffer), cv2.COLOR_BGR2RGB)
+
+def b64_to_bytes(b64):
+    '''
+    converts a b64 string to bytes type
+    '''
+
+    return base64.b64decode(b64)

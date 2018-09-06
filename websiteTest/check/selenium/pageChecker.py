@@ -5,8 +5,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from utils import tools
 
-import time
-
 
 class PageChecker(BaseChecker):
     def __init__(self, storage, *args, **kwargs):
@@ -79,9 +77,10 @@ class PageChecker(BaseChecker):
 
         self.load_url(url, webelement_to_wait, timeout)
         b64 = self.browser.get_screenshot_as_base64()
-        testing = b64
+        template = tools.b64_to_bytes(b64)
 
-        result = storage.save(template_name, testing, content_ext=template_ext)
+        result = storage.save(template_name, template,
+                              content_ext=template_ext)
         return result
 
     def close_browser(self):
