@@ -1,4 +1,5 @@
 import argparse
+import settings
 from tester import Tester
 
 # construct the argument parser and parse the arguments

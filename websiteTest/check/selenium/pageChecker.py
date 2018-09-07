@@ -1,4 +1,4 @@
-from .baseChecker import SeleniumBaseChecker
+from .baseChecker import BaseChecker
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -6,19 +6,19 @@ from selenium.webdriver.support import expected_conditions as EC
 from utils import tools
 
 
-class PageChecker(SeleniumBaseChecker):
+class PageChecker(BaseChecker):
     def __init__(self, storage, *args, **kwargs):
         '''
         @storage must be an instance from the storage module to
         read or save files from AWS or local files
         '''
-        super().__init__(*args, **kwargs)
+        super(PageTester, self).__init__(*args, **kwargs)
         self.storage = storage
 
     def load_url(self, url, webelement_to_wait, timeout):
         print("[INFO] Loading website")
-        self.browser.set_page_load_timeout(timeout)
-        self.browser.get(url)
+        self.browser.get(self.page_url)
+        self.browser.set_timeout(timeout)
         element_exists = True
 
         if webelement_to_wait is not None:
@@ -78,9 +78,9 @@ class PageChecker(SeleniumBaseChecker):
         self.load_url(url, webelement_to_wait, timeout)
         b64 = self.browser.get_screenshot_as_base64()
         template = tools.b64_to_bytes(b64)
-        result = self.storage.save(binary_file=template,
-                                   file_ext=template_ext,
-                                   file_name=template_name)
+
+        result = storage.save(template_name, template,
+                              content_ext=template_ext)
         return result
 
     def close_browser(self):

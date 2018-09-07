@@ -1,26 +1,12 @@
-from ..base.check import BaseChecker
 from selenium import webdriver
 
-class SeleniumBaseChecker():
+class BaseChecker():
     """BaseChecker should be inherited in all the checkers subclasses"""
 
     def __init__(self, *args, **kwargs):
-        width = kwargs.get("width", 1386)
-        height = kwargs.get("height", 768)
-        self.create_browser(width, height)
+        self.browser = webdriver.Chrome()
         self.timeout = kwargs.get("timeout", 30)
-        self.browser.set_page_load_timeout(self.timeout)  # Max timeout to load a page
-
-
-    def create_browser(self, width, height):
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('--no-sandbox')
-
-        chrome_options.add_experimental_option('prefs', {
-            'download.prompt_for_download': False
-        })
-        self.browser = webdriver.Chrome(chrome_options=chrome_options)
-        self.browser.set_window_size(width, height)
+        self.browser.set_timeout(self.timeout)  # Max timeout to load a page
 
     def tester(self):
         raise NotImplementedError(

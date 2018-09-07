@@ -2,7 +2,7 @@ import random
 import requests
 
 from boto3.session import Session
-from storage.storage import Storage
+from websiteTest.storage.storage import Storage
 
 
 class AwsStorage(Storage):
@@ -12,8 +12,7 @@ class AwsStorage(Storage):
     to the official AWS docs.
     """
 
-    def __init__(self, aws_secret_access_key, aws_access_key_id, aws_bucket,
-        access_policy="public-read", *args, **kwargs):
+    def __init__(self, aws_secret_access_key, aws_access_key_id, aws_bucket):
         """
         @aws_secret_access_key: Amazon secret key
         @aws_access_key_id: Amazon Access key
@@ -22,7 +21,6 @@ class AwsStorage(Storage):
         self.aws_secret_access_key = aws_secret_access_key
         self.aws_access_key_id = aws_access_key_id
         self.aws_bucket = aws_bucket
-        self.access_policy = access_policy
 
     def init_session(self):
 
@@ -32,7 +30,8 @@ class AwsStorage(Storage):
 
         return s3
 
-    def save(self, binary_file, file_ext, file_name=None):
+    def save(self, binary_file, file_ext, file_name=None,
+             access_policy="public-read"):
         """
         Sends a binary file to AWS
         @binary_file: File to send must be a binary file type.
@@ -52,7 +51,7 @@ class AwsStorage(Storage):
         s3.Bucket(self.aws_bucket).put_object(
             Key=file_name,
             Body=binary_file,
-            ACL=self.access_policy
+            ACL=access_policy
         )
 
         file_url = "https://s3.amazonaws.com/{0}/{1}".format(
@@ -63,7 +62,7 @@ class AwsStorage(Storage):
         """
         Returns a binary file from the url
         """
-        if not self.exist(path_file):
+        if not exist(path_file):
             message = "[ERROR] The file from path {}".format(path_file)
             message = "{} does not exist".format(message)
             raise LocalStorageError(message)
