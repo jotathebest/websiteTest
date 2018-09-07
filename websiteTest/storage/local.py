@@ -1,25 +1,20 @@
-
+from storage.storage import Storage
 import os
-from websiteTest.storage.storage import Storage
-
 
 class LocalStorage(Storage):
     def __init__(self, *args, **kwargs):
         '''
         Inits the local Storage class
-        @content_name: The name of the local file that will storage the content.
-        @content_ext: File extension
-        @content: String type. Content to be stored.
+        @file_name: The name of the local file that will storage the binary_file.
+        @file_ext: File extension
+        @binary_file: String type. binary_file to be stored.
         '''
-        self.storage_path = kwargs.get("content", None)
-        self._base_dir = os.path.dirname(os.path.abspath(__file__))
 
-    def save(self, content_name, content, content_ext="txt"):
+    def save(self, file_name, binary_file, file_ext="txt"):
         try:
-            file_name = "{}.{}".format(content_name, content_ext)
-            with open(os.path.join(self._base_dir, file_name), 'a') as f:
-                f.write(content)
-                f.write("\n")
+            file_name = "{}.{}".format(file_name, file_ext)
+            with open(file_name, 'w+b') as f:
+                f.write(binary_file)
             return True
         except Exception as e:
             print(e)
@@ -29,13 +24,12 @@ class LocalStorage(Storage):
         '''
         Returns a binary file from the path
         '''
-        if not exist(path_file):
+        if not self.exist(path_file):
             message = "[ERROR] The file from path {}".format(path_file)
             message = "{} does not exist".format(message)
             raise LocalStorageError(message)
 
-        string_read = ""
-        with open(path_file, 'r') as f:
+        with open(path_file, 'rb') as f:
             string_read = f.read()
 
         return string_read

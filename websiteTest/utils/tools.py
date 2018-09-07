@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 from PIL import Image
 import base64
+import io
 
 
 def compare_images(template, testing, delta=0):

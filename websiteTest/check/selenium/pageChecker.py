@@ -1,24 +1,26 @@
-from .baseChecker import BaseChecker
+from .baseChecker import SeleniumBaseChecker
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from utils import tools
 
+import base64
 
-class PageChecker(BaseChecker):
+
+class PageChecker(SeleniumBaseChecker):
     def __init__(self, storage, *args, **kwargs):
         '''
         @storage must be an instance from the storage module to
         read or save files from AWS or local files
         '''
-        super(PageTester, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.storage = storage
 
     def load_url(self, url, webelement_to_wait, timeout):
         print("[INFO] Loading website")
-        self.browser.get(self.page_url)
-        self.browser.set_timeout(timeout)
+        self.browser.set_page_load_timeout(timeout)
+        self.browser.get(url)
         element_exists = True
 
         if webelement_to_wait is not None:
@@ -47,8 +49,10 @@ class PageChecker(BaseChecker):
             print(message)
             return False
 
-    def open_template(self, path, timeout):
-        self.template = self.storage.open(path, timeout=timeout)
+    def open_template(self, path):
+        img_bytes = self.storage.open(path)
+        b64 = base64.b64encode(img_bytes).decode("utf-8")
+        self.template = tools.b64_to_cv2(b64)
 
     def tester(self, url, template_path, delta=0.5,
                webelement_to_wait=None, timeout=60):
@@ -60,7 +64,7 @@ class PageChecker(BaseChecker):
         @web_element_to_wait: Optional. Web element to search in the website
         @timeout: Max timeout for page load
         '''
-        open_template(template_path, timeout)
+        self.open_template(template_path)
         self.load_url(url, webelement_to_wait, timeout)
 
         b64 = self.browser.get_screenshot_as_base64()
@@ -78,9 +82,9 @@ class PageChecker(BaseChecker):
         self.load_url(url, webelement_to_wait, timeout)
         b64 = self.browser.get_screenshot_as_base64()
         template = tools.b64_to_bytes(b64)
-
-        result = storage.save(template_name, template,
-                              content_ext=template_ext)
+        result = self.storage.save(binary_file=template,
+                                   file_ext=template_ext,
+                                   file_name=template_name)
         return result
 
     def close_browser(self):
@@ -89,4 +93,6 @@ class PageChecker(BaseChecker):
 
 class PageCheckerError(ValueError):
     """docstring for SeleniumError"""
-    pass
+
+
+pass
