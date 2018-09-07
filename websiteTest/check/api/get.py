@@ -28,11 +28,11 @@ class ApiGet(BaseChecker):
             raise ApiGetError("[ERROR] Error getting, details: {}".format(e))
 
     def open_template(self, path):
-        self.template = self.storage.open(path)
+        self.template = self.storage.open(path).decode("utf-8")
 
     def tester(self, url, headers, template_path, timeout=60):
         '''
-        Returns True if images are different
+        Returns True if testing and template are different
         @url: Website URL to test
         @headers: Headers for the request
         @template_path: path to the template
@@ -41,7 +41,7 @@ class ApiGet(BaseChecker):
         self.open_template(template_path)
         testing = self.make_get(url, headers, timeout)
 
-        result = (testing == self.template)
+        result = not (testing == self.template)
         return (result, self.template, testing)
 
     def create_template(self, url, headers, template_name,
